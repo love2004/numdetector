@@ -1,0 +1,2 @@
+# numdetector
+ odd,even Detector
