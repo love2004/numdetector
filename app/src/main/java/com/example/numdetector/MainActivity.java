@@ -8,12 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textView;
     EditText editTextNumber;
     Button button;
-    int number;
+    private static String CHINESE_LETTER_DIGIT_REGEX = "^[a-z0-9A-Z\u4e00-\u9fa5]+$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,19 +27,28 @@ public class MainActivity extends AppCompatActivity {
         editTextNumber = findViewById(R.id.editTextNumber);
         button = findViewById(R.id.button);
 
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editTextNumber != null) {
-                    number = Integer.parseInt(editTextNumber.getText().toString());
-                    if (number % 2 ==0){
+                if (isLetterDigitOrChinese(editTextNumber.getText().toString())) {
+                    if (Integer.parseInt(editTextNumber.getText().toString()) % 2 == 0) {
                         textView.setText("偶數");
-                    }else {
+                    } else {
                         textView.setText("奇數");
                     }
+                }else {
+                    textView.setText("錯誤");
                 }
             }
         });
 
     }
+
+    public static boolean isLetterDigitOrChinese(String str) {
+        return str.matches(CHINESE_LETTER_DIGIT_REGEX);
+    }
+
+
 }
